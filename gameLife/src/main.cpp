@@ -27,6 +27,7 @@ int main()
 
         // clear the window with black color
         window.clear(sf::Color::Black);
+        for ()
         sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
         window.draw(rectangle);
         

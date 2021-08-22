@@ -16,7 +16,8 @@ class board
 		return (i >= 0 && i < BOARD_HEIGHT &&
 				j >= 0 && j < BOARD_WIDTH);
 	}
-	bool checkNeighbours(const int& i, const int& j)
+	//	wheater the value of the cell should change
+	bool checkNeighbours(const int& i, const int& j, const bool& value)
 	{
 		auto aliveCount = 0;
 		auto deadCount = 0;
@@ -35,7 +36,12 @@ class board
 				}
 			}
 		}
-		return
+		if (value && (aliveCount == 2 || aliveCount == 3)) // rule 1
+			return false;
+		if (!value && (aliveCount == 3))				   // rule 2
+			return true;
+		return value; //else stay
+
 	}
 public:
 	void clearBoard() { arr = {}; }
@@ -48,9 +54,10 @@ public:
 	{
 		for (size_t i = 0; i < BOARD_HEIGHT; ++i)
 		{
-			for (std::size_t j = 0; j < BOARD_WIDTH; ++j)
+			for (size_t j = 0; j < BOARD_WIDTH; ++j)
 			{
-				if ()
+				if (checkNeighbours(i, j, arr[i][j].getValue()))
+					arr[i][j].change();
 			}
 		}
 	}
