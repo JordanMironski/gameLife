@@ -4,11 +4,10 @@
 #include <iostream>
 
 #include "cell.hpp"
+constexpr unsigned short BOARD_WIDTH = 3;
+constexpr unsigned short BOARD_HEIGHT = 3;
 
-constexpr unsigned short BOARD_WIDTH = 32;
-constexpr unsigned short BOARD_HEIGHT = 32;
-
-class board
+struct board
 {
 	std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> arr; //2d matrix
 	[[nodiscard]] static bool isSafe(const int& i,const int& j)
@@ -30,7 +29,7 @@ class board
 					continue;
 				if (isSafe(ii, jj))
 				{
-					if (arr[ii][jj].getValue())
+					if (value)
 						++aliveCount;	// you can break early if any of the counts > 3
 					else ++deadCount;	// but since there are are only 8 neighbours no big perfomance gain
 				}
@@ -45,6 +44,12 @@ class board
 	}
 public:
 	void clearBoard() { arr = {}; }
+
+	[[nodiscard]] bool getCellValue(const int& i, const int& j) const
+	{
+		return arr.at(i).at(j).getValue();
+	}
+	
 	/*
 	 *	1. Any live cell with two or three live neighbours survives.
 		2. Any dead cell with three live neighbours becomes a live cell.
@@ -52,9 +57,9 @@ public:
 	 */
 	void applyRulesOnce()
 	{
-		for (size_t i = 0; i < BOARD_HEIGHT; ++i)
+		for (auto i = 0; i < BOARD_HEIGHT; ++i)
 		{
-			for (size_t j = 0; j < BOARD_WIDTH; ++j)
+			for (auto j = 0; j < BOARD_WIDTH; ++j)
 			{
 				if (checkNeighbours(i, j, arr[i][j].getValue()))
 					arr[i][j].change();
