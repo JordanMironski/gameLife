@@ -87,6 +87,7 @@ int main()
         board.applyRulesOnce();
         //puts("------------------------------------------");
         //board.printBoardArray();
+        
         //break;
     }
     return 0;

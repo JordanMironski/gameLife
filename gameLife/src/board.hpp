@@ -15,11 +15,11 @@ struct board
 		return (i >= 0 && i < BOARD_HEIGHT &&
 				j >= 0 && j < BOARD_WIDTH);
 	}
+	
 	//	wheater the value of the cell should change
 	bool checkNeighbours(const int& i, const int& j, const bool& value)
 	{
 		auto aliveCount = 0;
-		//auto deadCount = 0;
 
 		for (auto ii = i - 1; ii <= i + 1; ++ii)
 		{
@@ -27,16 +27,14 @@ struct board
 			{
 				if (ii == i && jj == j) // don't check the cell itself
 					continue;
-				//std::cout << std::boolalpha << isSafe(ii, jj) << std::endl;
 				if (isSafe(ii, jj))
 				{
 					if (arr[ii][jj].getValue())
 						++aliveCount;	// you can break early if any of the counts > 3
-					//else ++deadCount;	// but since there are are only 8 neighbours no big perfomance gain
+					// but since there are are only 8 neighbours no big perfomance gain
 				}
 			}
 		}
-		//std::cout << "(" << aliveCount << ")" << " ";
 		if (value && (aliveCount == 2 || aliveCount == 3)) // rule 1
 			return false;
 		if (!value && (aliveCount == 3))				   // rule 2
@@ -60,14 +58,11 @@ public:
 	void applyRulesOnce()
 	{
 		board nextState;
-		//puts("------------------------");
-		//puts("nextState at the begining");
-		//nextState.printBoardArray();
+		
 		for (auto i = 0; i < BOARD_HEIGHT; ++i)
 		{
 			for (auto j = 0; j < BOARD_WIDTH; ++j)
 			{
-				//std::cout << checkNeighbours(i, j, arr[i][j].getValue()) << " ";
 				if (checkNeighbours(i, j, arr[i][j].getValue()))
 				{
 					if (nextState.arr[i][j].getValue() == arr[i][j].getValue())
@@ -75,15 +70,10 @@ public:
 				}
 				else if (nextState.arr[i][j].getValue() != arr[i][j].getValue())
 					nextState.arr[i][j].change();
-				
-				//std::cout << arr[i][j].getValue() << " ";
 			}
-			//puts("\n");
 		}
-		//delete this;
-		//puts("nextState at the end");
-		//nextState.printBoardArray();
-		*this = (std::move(nextState));
+
+		*this = nextState; // should be a move
 	}
 	void printBoardArray() const
 	{
