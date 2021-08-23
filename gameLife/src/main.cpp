@@ -46,13 +46,17 @@ int main()
     a.setAlive();
     d.setDead();
     board.arr[0] = { d,d,a };
-    board.arr[1] = { d,a,d };
-    board.arr[2] = { a,d,d };
-	board.printBoardArray();
+    board.arr[1] = { a,d,a };
+    board.arr[2] = { d,a,a };
+    /*board.arr[0] = { a,a,d };
+    board.arr[1] = { a,a,d };
+    board.arr[2] = { d,d,d };
+	*/
+    //board.printBoardArray();
     // create the window
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Game of Life");
     window.setVerticalSyncEnabled(true); // call it once, after creating the window
-
+    //window.setFramerateLimit(8);
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -81,8 +85,9 @@ int main()
         // end the current frame
         window.display();
         board.applyRulesOnce();
-        puts("------------------------------------------");
-        board.printBoardArray();
+        //puts("------------------------------------------");
+        //board.printBoardArray();
+        //break;
     }
     return 0;
 }

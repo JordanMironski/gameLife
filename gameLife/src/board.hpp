@@ -4,8 +4,8 @@
 #include <iostream>
 
 #include "cell.hpp"
-constexpr unsigned short BOARD_WIDTH = 3;
-constexpr unsigned short BOARD_HEIGHT = 3;
+constexpr unsigned short BOARD_WIDTH = 64;
+constexpr unsigned short BOARD_HEIGHT = 64;
 
 struct board
 {
@@ -19,27 +19,29 @@ struct board
 	bool checkNeighbours(const int& i, const int& j, const bool& value)
 	{
 		auto aliveCount = 0;
-		auto deadCount = 0;
+		//auto deadCount = 0;
 
 		for (auto ii = i - 1; ii <= i + 1; ++ii)
 		{
 			for (auto jj = j - 1; jj <= j + 1; ++jj)
 			{
-				if (ii == i && jj == j) //don't check the cell itself
+				if (ii == i && jj == j) // don't check the cell itself
 					continue;
+				//std::cout << std::boolalpha << isSafe(ii, jj) << std::endl;
 				if (isSafe(ii, jj))
 				{
-					if (value)
+					if (arr[ii][jj].getValue())
 						++aliveCount;	// you can break early if any of the counts > 3
-					else ++deadCount;	// but since there are are only 8 neighbours no big perfomance gain
+					//else ++deadCount;	// but since there are are only 8 neighbours no big perfomance gain
 				}
 			}
 		}
+		//std::cout << "(" << aliveCount << ")" << " ";
 		if (value && (aliveCount == 2 || aliveCount == 3)) // rule 1
 			return false;
 		if (!value && (aliveCount == 3))				   // rule 2
 			return true;
-		return value; //else stay
+		return value; // else change if alive or stay if dead
 
 	}
 public:
@@ -57,14 +59,31 @@ public:
 	 */
 	void applyRulesOnce()
 	{
+		board nextState;
+		//puts("------------------------");
+		//puts("nextState at the begining");
+		//nextState.printBoardArray();
 		for (auto i = 0; i < BOARD_HEIGHT; ++i)
 		{
 			for (auto j = 0; j < BOARD_WIDTH; ++j)
 			{
+				//std::cout << checkNeighbours(i, j, arr[i][j].getValue()) << " ";
 				if (checkNeighbours(i, j, arr[i][j].getValue()))
-					arr[i][j].change();
+				{
+					if (nextState.arr[i][j].getValue() == arr[i][j].getValue())
+						nextState.arr[i][j].change();
+				}
+				else if (nextState.arr[i][j].getValue() != arr[i][j].getValue())
+					nextState.arr[i][j].change();
+				
+				//std::cout << arr[i][j].getValue() << " ";
 			}
+			//puts("\n");
 		}
+		//delete this;
+		//puts("nextState at the end");
+		//nextState.printBoardArray();
+		*this = (std::move(nextState));
 	}
 	void printBoardArray() const
 	{
