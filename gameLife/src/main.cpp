@@ -40,14 +40,17 @@ int main()
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     };*/
-    board board;
+    std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> init;
     cell a;
     cell d;
     a.setAlive();
     d.setDead();
-    board.arr[0] = { d,d,a };
-    board.arr[1] = { a,d,a };
-    board.arr[2] = { d,a,a };
+    init[0] = { d,d,a };
+    init[1] = { a,d,a };
+    init[2] = { d,a,a };
+    
+    board board(init);
+
     /*board.arr[0] = { a,a,d };
     board.arr[1] = { a,a,d };
     board.arr[2] = { d,d,d };

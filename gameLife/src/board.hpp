@@ -7,10 +7,10 @@
 constexpr unsigned short BOARD_WIDTH = 64;
 constexpr unsigned short BOARD_HEIGHT = 64;
 
-struct board
+class board
 {
 	std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> arr; //2d matrix
-	[[nodiscard]] static bool isSafe(const int& i,const int& j)
+	[[nodiscard]] static bool isSafe(const int& i, const int& j)
 	{
 		return (i >= 0 && i < BOARD_HEIGHT &&
 				j >= 0 && j < BOARD_WIDTH);
@@ -43,6 +43,10 @@ struct board
 
 	}
 public:
+	board(const std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT>& arr = {})
+	{
+		this->arr = arr;
+	}
 	void clearBoard() { arr = {}; }
 
 	[[nodiscard]] bool getCellValue(const int& i, const int& j) const
