@@ -40,17 +40,18 @@ int main()
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                     {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
     };*/
+    bool rightClickOn = false; // flag indicating weather to accept mouse inputs (left clicks)
     std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> init;
     cell a;
     cell d;
     a.setAlive();
     d.setDead();
-    init[0] = { d,d,a };
-    init[1] = { a,d,a };
-    init[2] = { d,a,a };
+    //init[0] = { d,d,a };
+    //init[1] = { a,d,a };
+    //init[2] = { d,a,a };
     
     board board(init);
-
+    bool flag = true;
     /*board.arr[0] = { a,a,d };
     board.arr[1] = { a,a,d };
     board.arr[2] = { d,d,d };
@@ -67,11 +68,49 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            // "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
+            switch (event.type)
+            {
+                // window closed
+            case sf::Event::Closed:
                 window.close();
-        }
+                break;
 
+                // mouse pressed
+            case sf::Event::MouseButtonPressed:
+            {
+                if (event.mouseButton.button == sf::Mouse::Right)
+                {
+                    std::cout << "the right button was pressed" << std::endl;
+                    rightClickOn = !rightClickOn;
+                    board = init;
+                    break;
+                }
+                if (event.mouseButton.button == sf::Mouse::Left)
+                {
+                    std::cout << "the left button was pressed" << std::endl;
+
+                    auto j = floor(event.mouseButton.x / CELL_WIDTH);
+                    auto i = floor(event.mouseButton.y / CELL_HEIGHT);
+                    std::cout << i << " " << j << std::endl;
+                    init[i][j] = a;
+                }
+            }
+                // we don't process other types of events
+            default:
+                break;
+            }
+            /*// "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+                window.close();*/
+        }
+        /*if (rightClickOn)
+            continue;
+        else if (flag)
+        {
+            board = init;
+            flag = false;
+        }*/
+        
         // clear the window with black color
         window.clear(sf::Color::Black);
         for (auto i = 0; i < BOARD_HEIGHT; ++i)

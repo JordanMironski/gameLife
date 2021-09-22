@@ -6,15 +6,11 @@
 #include "cell.hpp"
 constexpr unsigned short BOARD_WIDTH = 64;
 constexpr unsigned short BOARD_HEIGHT = 64;
-
+bool isSafe(const int& i, const int& j);
 class board
 {
 	std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> arr; //2d matrix
-	[[nodiscard]] static bool isSafe(const int& i, const int& j)
-	{
-		return (i >= 0 && i < BOARD_HEIGHT &&
-				j >= 0 && j < BOARD_WIDTH);
-	}
+	
 	
 	//	wheater the value of the cell should change
 	bool checkNeighbours(const int& i, const int& j, const bool& value)
@@ -89,5 +85,9 @@ public:
 		}
 	}
 };
-
+[[nodiscard]] bool isSafe(const int& i, const int& j)
+{
+	return (i >= 0 && i < BOARD_HEIGHT&&
+		j >= 0 && j < BOARD_WIDTH);
+}
 #endif // BOARD_HPP
