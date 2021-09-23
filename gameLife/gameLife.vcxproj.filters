@@ -26,6 +26,12 @@
     <ClInclude Include="src\cell.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\menu.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\settings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-tidy" />

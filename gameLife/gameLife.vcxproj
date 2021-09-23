@@ -145,6 +145,8 @@
   <ItemGroup>
     <ClInclude Include="src\board.hpp" />
     <ClInclude Include="src\cell.hpp" />
+    <ClInclude Include="src\menu.hpp" />
+    <ClInclude Include="src\settings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-tidy" />

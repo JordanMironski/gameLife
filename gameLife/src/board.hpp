@@ -1,15 +1,18 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
 #include <array>
+#include <vector>
 #include <iostream>
 
 #include "cell.hpp"
-constexpr unsigned short BOARD_WIDTH = 64;
-constexpr unsigned short BOARD_HEIGHT = 64;
+#include "settings.hpp"
+//constexpr unsigned short BOARD_WIDTH = 64;
+//constexpr unsigned short BOARD_HEIGHT = 64;
 bool isSafe(const int& i, const int& j);
 class board
 {
-	std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> arr; //2d matrix
+	//std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> arr; //2d matrix
+	std::vector<std::vector<cell>> arr;
 	
 	
 	//	wheater the value of the cell should change
@@ -39,7 +42,11 @@ class board
 
 	}
 public:
-	board(const std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT>& arr = {})
+	/*board(const std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT>& arr = {})
+	{
+		this->arr = arr;
+	}*/
+	board(const std::vector<std::vector<cell>>& arr = std::vector<std::vector<cell>> (settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, cell())))
 	{
 		this->arr = arr;
 	}
@@ -59,9 +66,9 @@ public:
 	{
 		board nextState;
 		
-		for (auto i = 0; i < BOARD_HEIGHT; ++i)
+		for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
 		{
-			for (auto j = 0; j < BOARD_WIDTH; ++j)
+			for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 			{
 				if (checkNeighbours(i, j, arr[i][j].getValue()))
 				{
@@ -87,7 +94,7 @@ public:
 };
 [[nodiscard]] bool isSafe(const int& i, const int& j)
 {
-	return (i >= 0 && i < BOARD_HEIGHT&&
-		j >= 0 && j < BOARD_WIDTH);
+	return (i >= 0 && i < settings.BOARD_HEIGHT&&
+		j >= 0 && j < settings.BOARD_WIDTH);
 }
 #endif // BOARD_HPP

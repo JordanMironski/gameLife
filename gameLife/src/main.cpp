@@ -1,56 +1,39 @@
 #include "board.hpp"
+#include "settings.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
-constexpr unsigned short WINDOW_WIDTH = 800;
-constexpr unsigned short WINDOW_HEIGHT = 800;
-constexpr float CELL_WIDTH = static_cast<float>(WINDOW_WIDTH) / BOARD_WIDTH;
-constexpr float CELL_HEIGHT = static_cast<float>(WINDOW_HEIGHT) / BOARD_HEIGHT;
+//extern constexpr unsigned short WINDOW_WIDTH = 800;
+//extern constexpr unsigned short WINDOW_HEIGHT = 800;
+float CELL_WIDTH = static_cast<float>(settings.WINDOW_WIDTH) / settings.BOARD_WIDTH;
+float CELL_HEIGHT = static_cast<float>(settings.WINDOW_HEIGHT) / settings.BOARD_HEIGHT;
 int main()
 {
-    /*board board({{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-    };*/
+   
     bool rightClickOn = false; // flag indicating weather to accept mouse inputs (left clicks)
-    std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT> init;
+    //std::array<std::array<cell, settings.BOARD_WIDTH>, settings.BOARD_HEIGHT> init;
     cell a;
     cell d;
     a.setAlive();
     d.setDead();
+    //std::vector<std::vector<cell>> init;
+    //std::vector<cell> forInit(settings.BOARD_WIDTH, d);
+    //std::vector<std::vector<cell>> init(settings.BOARD_HEIGHT, forInit);
+
+    std::vector<std::vector<cell>> init(settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, d));
+
+
+    //init.resize(settings.)
     //init[0] = { d,d,a };
     //init[1] = { a,d,a };
     //init[2] = { d,a,a };
     
     board board(init);
+    for (const auto& row : init)
+    {
+        for (const auto& el : row)
+            std::cout << el.getValue() << " ";
+        std::cout << std::endl;
+    }
     bool flag = true;
     /*board.arr[0] = { a,a,d };
     board.arr[1] = { a,a,d };
@@ -58,7 +41,7 @@ int main()
 	*/
     //board.printBoardArray();
     // create the window
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Game of Life");
+    sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
     window.setVerticalSyncEnabled(true); // call it once, after creating the window
     //window.setFramerateLimit(8);
     // run the program as long as the window is open
@@ -99,22 +82,11 @@ int main()
             default:
                 break;
             }
-            /*// "close requested" event: we close the window
-            if (event.type == sf::Event::Closed)
-                window.close();*/
-        }
-        /*if (rightClickOn)
-            continue;
-        else if (flag)
-        {
-            board = init;
-            flag = false;
-        }*/
-        
+        }        
         // clear the window with black color
         window.clear(sf::Color::Black);
-        for (auto i = 0; i < BOARD_HEIGHT; ++i)
-            for (auto j = 0; j < BOARD_WIDTH; ++j)
+        for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
+            for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
             {
                 sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
                 rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
