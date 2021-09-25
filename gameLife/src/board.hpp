@@ -1,13 +1,11 @@
 #ifndef BOARD_HPP
 #define BOARD_HPP
-#include <array>
 #include <vector>
 #include <iostream>
 
 #include "cell.hpp"
 #include "settings.hpp"
-//constexpr unsigned short BOARD_WIDTH = 64;
-//constexpr unsigned short BOARD_HEIGHT = 64;
+
 bool isSafe(const int& i, const int& j);
 class board
 {
@@ -42,10 +40,6 @@ class board
 
 	}
 public:
-	/*board(const std::array<std::array<cell, BOARD_WIDTH>, BOARD_HEIGHT>& arr = {})
-	{
-		this->arr = arr;
-	}*/
 	board(const std::vector<std::vector<cell>>& arr = std::vector<std::vector<cell>> (settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, cell())))
 	{
 		this->arr = arr;

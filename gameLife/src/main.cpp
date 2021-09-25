@@ -8,7 +8,6 @@ float CELL_WIDTH = static_cast<float>(settings.WINDOW_WIDTH) / settings.BOARD_WI
 float CELL_HEIGHT = static_cast<float>(settings.WINDOW_HEIGHT) / settings.BOARD_HEIGHT;
 int main()
 {
-   
     bool rightClickOn = false; // flag indicating weather to accept mouse inputs (left clicks)
     //std::array<std::array<cell, settings.BOARD_WIDTH>, settings.BOARD_HEIGHT> init;
     cell a;
@@ -28,13 +27,12 @@ int main()
     //init[2] = { d,a,a };
     
     board board(init);
-    for (const auto& row : init)
+    /*for (const auto& row : init)
     {
         for (const auto& el : row)
             std::cout << el.getValue() << " ";
         std::cout << std::endl;
-    }
-    bool flag = true;
+    }*/
     /*board.arr[0] = { a,a,d };
     board.arr[1] = { a,a,d };
     board.arr[2] = { d,d,d };
@@ -44,6 +42,8 @@ int main()
     sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
     window.setVerticalSyncEnabled(true); // call it once, after creating the window
     //window.setFramerateLimit(8);
+    window.clear(sf::Color::Black);
+    window.display();
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -72,37 +72,52 @@ int main()
                 {
                     std::cout << "the left button was pressed" << std::endl;
 
-                    auto j = floor(event.mouseButton.x / CELL_WIDTH);
-                    auto i = floor(event.mouseButton.y / CELL_HEIGHT);
+                    auto j = static_cast<int>(floor(event.mouseButton.x / CELL_WIDTH));
+                    auto i = static_cast<int>(floor(event.mouseButton.y / CELL_HEIGHT));
                     std::cout << i << " " << j << std::endl;
                     init[i][j] = a;
+                    window.clear(sf::Color::Black);
+                    // draw the cells
+                    for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
+                        for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
+                        {
+                            sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
+                            rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
+
+                            if (!init[i][j].getValue()) // if is alive set color black (0, 0, 0)
+                                rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
+                            window.draw(rectangle);
+                        }
+                    window.display();
+                    break;
                 }
             }
                 // we don't process other types of events
             default:
                 break;
             }
-        }        
-        // clear the window with black color
-        window.clear(sf::Color::Black);
-        for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
-            for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
-            {
-                sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
-                rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
+        }
+        if (rightClickOn)
+        {
+            // clear the window with black color
+            window.clear(sf::Color::Black);
+            // draw the cells
+            for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
+                for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
+                {
+                    sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
+                    rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
 
-                if (!board.getCellValue(i,j)) // if is alive set color black (0, 0, 0)
-            		rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
-                window.draw(rectangle);
-            }
-    	
-        // end the current frame
-        window.display();
-        board.applyRulesOnce();
-        //puts("------------------------------------------");
-        //board.printBoardArray();
-        
-        //break;
+                    if (!board.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
+                        rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
+                    window.draw(rectangle);
+                }
+
+            // end the current frame
+            window.display();
+            board.applyRulesOnce();
+            //break;
+        }
     }
     return 0;
 }
