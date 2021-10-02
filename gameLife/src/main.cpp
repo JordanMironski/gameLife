@@ -1,13 +1,15 @@
 #include "board.hpp"
 #include "settings.hpp"
+#include "menu.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 //extern constexpr unsigned short WINDOW_WIDTH = 800;
 //extern constexpr unsigned short WINDOW_HEIGHT = 800;
-float CELL_WIDTH = static_cast<float>(settings.WINDOW_WIDTH) / settings.BOARD_WIDTH;
-float CELL_HEIGHT = static_cast<float>(settings.WINDOW_HEIGHT) / settings.BOARD_HEIGHT;
+
 int main()
 {
+    float CELL_WIDTH = static_cast<float>(settings.WINDOW_WIDTH) / settings.BOARD_WIDTH;
+    float CELL_HEIGHT = static_cast<float>(settings.WINDOW_HEIGHT) / settings.BOARD_HEIGHT;
     bool rightClickOn = false; // flag indicating weather to accept mouse inputs (left clicks)
     //std::array<std::array<cell, settings.BOARD_WIDTH>, settings.BOARD_HEIGHT> init;
     cell a;
@@ -27,6 +29,7 @@ int main()
     //init[2] = { d,a,a };
     
     board board(init);
+    menu menu;
     /*for (const auto& row : init)
     {
         for (const auto& el : row)
@@ -43,6 +46,7 @@ int main()
     window.setVerticalSyncEnabled(true); // call it once, after creating the window
     //window.setFramerateLimit(8);
     window.clear(sf::Color::Black);
+    menu.draw(window);
     window.display();
     // run the program as long as the window is open
     while (window.isOpen())
@@ -57,8 +61,34 @@ int main()
             case sf::Event::Closed:
                 window.close();
                 break;
+            case sf::Event::KeyReleased:
+                switch (event.key.code)
+                {
+                    case sf::Keyboard::Up:
+                        menu.MoveUp();
+                        break;
 
-                // mouse pressed
+                    case sf::Keyboard::Down:
+                        menu.MoveDown();
+                        break;
+
+                    case sf::Keyboard::Return:
+                        switch (menu.GetPressedItem())
+                        {
+                            case 0:
+                                std::cout << "Play button has been pressed" << std::endl;
+                                break;
+                            case 1:
+                                std::cout << "Option button has been pressed" << std::endl;
+                                break;
+                            case 2:
+                                window.close();
+                                break;
+                        }
+
+                        break;
+                }
+            // mouse pressed
             case sf::Event::MouseButtonPressed:
             {
                 if (event.mouseButton.button == sf::Mouse::Right)
