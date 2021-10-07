@@ -2,7 +2,6 @@
 #define BOARD_HPP
 #include <vector>
 #include <iostream>
-
 #include "cell.hpp"
 #include "settings.hpp"
 
@@ -88,7 +87,7 @@ public:
 };
 bool isSafe(const int& i, const int& j)
 {
-	return (i >= 0 && i < settings.BOARD_HEIGHT&&
-		j >= 0 && j < settings.BOARD_WIDTH);
+	return (i >= 0 && i < settings.BOARD_HEIGHT &&
+			j >= 0 && j < settings.BOARD_WIDTH);
 }
 #endif // BOARD_HPP

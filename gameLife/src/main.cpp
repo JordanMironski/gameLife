@@ -3,6 +3,7 @@
 #include "menu.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
+
 //extern constexpr unsigned short WINDOW_WIDTH = 800;
 //extern constexpr unsigned short WINDOW_HEIGHT = 800;
 
@@ -29,10 +30,10 @@ int main()
     // create the window
     sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
     window.setVerticalSyncEnabled(true); // call it once, after creating the window
-    //window.setFramerateLimit(8);
     window.clear(sf::Color::Black);
     menu.draw(window);
     window.display();
+
     // run the program as long as the window is open
     while (window.isOpen())
     {
@@ -92,6 +93,8 @@ int main()
                                     }
                                     window.setSize(sf::Vector2u(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
                                     
+                                    board = class board();
+                                    window.clear(sf::Color::Black);
                                     puts("window size set");
                                     playSelected = true;
                                     window.display();
@@ -110,6 +113,7 @@ int main()
                             {
                                 std::cout << "the right button was pressed" << std::endl;
                                 rightClickPressed = !rightClickPressed;
+                                //board = class board();
                                 board = init;
                                 break;
                             }
@@ -121,6 +125,7 @@ int main()
                                 auto i = static_cast<int>(floor(event.mouseButton.y / CELL_HEIGHT));
                                 std::cout << i << " " << j << std::endl;
                                 init[i][j] = a;
+                                //board[i][j] = a;
                                 window.clear(sf::Color::Black);
                                 // draw the cells
                                 for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
@@ -144,11 +149,11 @@ int main()
                     break;*/
             }
         }
-
+        // game should be calculating/changing state
         if (rightClickPressed && playSelected)
         {
-            // clear the window with black color
             window.clear(sf::Color::Black);
+
             // draw the cells
             for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
                 for (auto j = 0; j < settings.BOARD_WIDTH; ++j)

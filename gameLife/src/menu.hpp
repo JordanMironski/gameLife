@@ -1,6 +1,7 @@
 #ifndef MENU_HPP
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <array>
 #include "settings.hpp"
 constexpr unsigned short MAX_NUMBER_OF_ITEMS = 3;
 
@@ -63,6 +64,7 @@ public:
 private:
 	int selectedItemIndex;
 	sf::Font font;
-	sf::Text data[MAX_NUMBER_OF_ITEMS];
+	std::array<sf::Text, MAX_NUMBER_OF_ITEMS> data;
+	//sf::Text data[MAX_NUMBER_OF_ITEMS];
 };
 #endif // MENU_HPP
