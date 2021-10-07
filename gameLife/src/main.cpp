@@ -1,13 +1,14 @@
-#include "board.hpp"
-#include "settings.hpp"
-#include "menu.hpp"
+//#include "board.hpp"
+//#include "settings.hpp"
+//#include "menu.hpp"
+#include "game.hpp"
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 
 //extern constexpr unsigned short WINDOW_WIDTH = 800;
 //extern constexpr unsigned short WINDOW_HEIGHT = 800;
 
-int main()
+/*int main()
 {
     float CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
     float CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
@@ -145,8 +146,8 @@ int main()
                 }
                 
                 // we don't process other types of events
-                /*default:
-                    break;*/
+                //default:
+                 //   break;
             }
         }
         // game should be calculating/changing state
@@ -173,5 +174,11 @@ int main()
         }
     }
 
+    return 0;
+}*/
+int main()
+{
+    game game;
+    game.runLoop();
     return 0;
 }
