@@ -12,16 +12,18 @@ int main()
     float CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
     bool rightClickPressed = false; // flag indicating weather to accept mouse inputs (left clicks)
-    bool enterPressed = false;
+    bool playSelected = false;
+    bool optionsSelected = false;
 
     cell a;
     cell d;
     a.setAlive();
     d.setDead();
 
-    std::vector<std::vector<cell>> init(settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, d));
+    std::vector<std::vector<cell>> init(settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, d)); // i want this not to be here
     
-    board board(init);
+    //board board(init);
+    board board;
     menu menu;
    
     // create the window
@@ -66,24 +68,44 @@ int main()
                             {
                                 case 0:
                                     std::cout << "Play button has been pressed" << std::endl;
-                                    enterPressed = true;
+                                    playSelected = true;
                                     window.clear(sf::Color::Black);
                                     window.display();
                                     break;
                                 case 1:
                                     std::cout << "Option button has been pressed" << std::endl;
+                                    window.clear(sf::Color::Black);
+                                    window.display();
+                                    int resolutionWidth;
+                                    int resolutionHeight;
+                                    std::cin >> resolutionWidth >> resolutionHeight;
+                                    // if input values < max resolution
+                                    int numCellsRow;
+                                    int numCellsCol;
+                                    std::cin >> numCellsRow >> numCellsCol;
+                                    if (numCellsRow < resolutionWidth && numCellsCol < resolutionHeight)
+                                    {
+                                        settings.WINDOW_HEIGHT = resolutionHeight;
+                                        settings.WINDOW_WIDTH = resolutionWidth;
+                                        settings.BOARD_HEIGHT = numCellsCol;
+                                        settings.BOARD_WIDTH = numCellsRow;
+                                    }
+                                    window.setSize(sf::Vector2u(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
+                                    
+                                    puts("window size set");
+                                    playSelected = true;
+                                    window.display();
                                     break;
                                 case 2:
                                     window.close();
                                     break;
                             }
-                            //break;
+                            break;
                     }
                 // mouse pressed
-                if (enterPressed)
+                if (playSelected)
                 {
                         case sf::Event::MouseButtonPressed:
-                        {
                             if (event.mouseButton.button == sf::Mouse::Right)
                             {
                                 std::cout << "the right button was pressed" << std::endl;
@@ -114,16 +136,16 @@ int main()
                                 window.display();
                                 break;
                             }
-                        }
+                            break;
                 }
                 
                 // we don't process other types of events
-                default:
-                    break;
+                /*default:
+                    break;*/
             }
         }
 
-        if (rightClickPressed && enterPressed)
+        if (rightClickPressed && playSelected)
         {
             // clear the window with black color
             window.clear(sf::Color::Black);
