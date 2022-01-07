@@ -40,9 +40,9 @@ private:
 
 	}
 public:
-	board(const std::vector<std::vector<cell>>& arr = std::vector<std::vector<cell>> (settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, cell())))
+	board(std::vector<std::vector<cell>> arr = std::vector<std::vector<cell>>(settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, cell()))) : arr(std::move(arr))
 	{
-		this->arr = arr;
+		//this->arr = arr;
 	}
 	void clearBoard() { arr = {}; }
 

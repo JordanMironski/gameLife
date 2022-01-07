@@ -161,8 +161,8 @@ public:
                         }
 
                     // we don't process other types of events
-                    //default:
-                     //   break;
+                    default:
+                        break;
                 }
             }
             // game should be calculating/changing state
