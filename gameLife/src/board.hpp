@@ -41,16 +41,15 @@ private:
 	}
 public:
 	board(std::vector<std::vector<cell>> arr = std::vector<std::vector<cell>>(settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, cell()))) : arr(std::move(arr))
-	{
-		//this->arr = arr;
-	}
+	{}
+
 	void clearBoard() { arr = {}; }
 
 	[[nodiscard]] bool getCellValue(const int& i, const int& j) const
 	{
 		return arr.at(i).at(j).getValue();
 	}
-	
+
 	/*
 	 *	1. Any live cell with two or three live neighbours survives.
 		2. Any dead cell with three live neighbours becomes a live cell.
@@ -59,7 +58,7 @@ public:
 	void applyRulesOnce()
 	{
 		board nextState;
-		
+
 		for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
 		{
 			for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
@@ -88,7 +87,7 @@ public:
 };
 bool isSafe(const int& i, const int& j)
 {
-	return (i >= 0 && i < settings.BOARD_HEIGHT &&
-			j >= 0 && j < settings.BOARD_WIDTH);
+	return (i >= 0 && i < settings.BOARD_HEIGHT&&
+		j >= 0 && j < settings.BOARD_WIDTH);
 }
 #endif // BOARD_HPP

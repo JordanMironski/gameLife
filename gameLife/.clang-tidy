@@ -1,3 +1,2 @@
 Checks: '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-modernize-use-trailing-return-type,-llvm*'
 HeaderFilterRegex: 'src.*'
-FormatStyle:     none
