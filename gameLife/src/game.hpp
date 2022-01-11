@@ -123,23 +123,30 @@ public:
 							break;
 						}
 						case 2:
+							// Exit selected
 							window.close();
+							break;
+
+						default:
 							break;
 						}
 						break;
+					default:
+						break;
 					}
+
 					// mouse pressed
+				case sf::Event::MouseButtonPressed:
+				{
 					if (playSelected)
 					{
-						//class board temp = board;
-					case sf::Event::MouseButtonPressed:
-						if (event.mouseButton.button == sf::Mouse::Right && playSelected)
+						if (event.mouseButton.button == sf::Mouse::Right)
 						{
 							std::cout << "the right button was pressed" << std::endl;
 							rightClickPressed = !rightClickPressed;
 							break;
 						}
-						if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed && playSelected)
+						else if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed)
 						{
 							window.clear(sf::Color::Black);
 							window.display();
@@ -159,7 +166,7 @@ public:
 
 							//board.printBoardArray();
 							//std::cout << std::endl;
-							
+
 							// draw the cells
 							window.clear(sf::Color::Black);
 
@@ -183,12 +190,13 @@ public:
 							}
 							window.display();
 							//Sleep(5000);
+
 							break;
 						}
-						//break;
+						break;
 					}
-
-					// we don't process other types of events
+					break;
+				}
 				default:
 					break;
 				}

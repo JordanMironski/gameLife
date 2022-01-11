@@ -75,6 +75,7 @@ public:
 
 		*this = nextState; // should be a move
 	}
+
 	void printBoardArray() const
 	{
 		for (const auto& row : arr)
@@ -87,7 +88,7 @@ public:
 };
 bool isSafe(const int& i, const int& j)
 {
-	return (i >= 0 && i < settings.BOARD_HEIGHT&&
+	return (i >= 0 && i < settings.BOARD_HEIGHT &&
 		j >= 0 && j < settings.BOARD_WIDTH);
 }
 #endif // BOARD_HPP
