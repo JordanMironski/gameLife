@@ -16,8 +16,8 @@ public:
 		//board board();
 
 		//this->board = class board();
-		double CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
-		double CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<double>(settings.BOARD_HEIGHT);
+		float CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
+		float CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
 		bool rightClickPressed = false; // flag indicating weather to accept mouse inputs (left clicks)
 		bool playSelected = false;
@@ -97,10 +97,10 @@ public:
 								settings.WINDOW_WIDTH = resolutionWidth;
 								settings.BOARD_HEIGHT = numCellsCol;
 								settings.BOARD_WIDTH = numCellsRow;
-								CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
-								CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<double>(settings.BOARD_HEIGHT);
+								CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
+								CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
-								std::cout << "cell " << CELL_WIDTH << " " << CELL_HEIGHT;
+								//std::cout << "cell " << CELL_WIDTH << " " << CELL_HEIGHT;
 							}
 
 							window.setSize(sf::Vector2u(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
@@ -133,13 +133,13 @@ public:
 					{
 						//class board temp = board;
 					case sf::Event::MouseButtonPressed:
-						if (event.mouseButton.button == sf::Mouse::Right)
+						if (event.mouseButton.button == sf::Mouse::Right && playSelected)
 						{
 							std::cout << "the right button was pressed" << std::endl;
 							rightClickPressed = !rightClickPressed;
 							break;
 						}
-						if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed)
+						if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed && playSelected)
 						{
 							window.clear(sf::Color::Black);
 							window.display();
@@ -147,9 +147,9 @@ public:
 
 							auto i = static_cast<int>(floor(event.mouseButton.x / CELL_WIDTH));
 							auto j = static_cast<int>(floor(event.mouseButton.y / CELL_HEIGHT));
-							std::cout << event.mouseButton.x << " " << event.mouseButton.y << std::endl;
-							std::cout << i << " " << j << std::endl;
-							std::cout << "cell " << CELL_WIDTH << " " << CELL_HEIGHT;
+							//std::cout << event.mouseButton.x << " " << event.mouseButton.y << std::endl;
+							//std::cout << i << " " << j << std::endl;
+							//std::cout << "cell " << CELL_WIDTH << " " << CELL_HEIGHT;
 
 
 							//board.printBoardArray();
@@ -171,7 +171,7 @@ public:
 									sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
 									//std::cout << "inside " << CELL_WIDTH << " " << CELL_HEIGHT;
 
-									rectangle.setPosition((CELL_WIDTH) * static_cast<double>(j), CELL_HEIGHT * static_cast<double>(i));
+									rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
 									//std::cout << CELL_WIDTH * static_cast<double>(j) << " " << CELL_HEIGHT * static_cast<double>(i) << " ";
 									//std::cout << "x";
 									//if (!board.arr[i][j].getValue()) // if is alive set color black (0, 0, 0)
@@ -203,7 +203,7 @@ public:
 					for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 					{
 						sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
-						rectangle.setPosition((CELL_WIDTH) * static_cast<double>(j), CELL_HEIGHT * static_cast<double>(i));
+						rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
 
 						if (!board.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
 							rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
