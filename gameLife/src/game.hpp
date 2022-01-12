@@ -4,6 +4,32 @@
 
 #include <Windows.h>
 
+void work(sf::RenderWindow& window, board& b, const bool rightClickPressed, const bool playSelected, const float CELL_WIDTH, const float CELL_HEIGHT)
+{
+	// game should be calculating/changing state
+	if (rightClickPressed && playSelected)
+	{
+		window.clear(sf::Color::Black);
+
+		// draw the cells
+		for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
+			for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
+			{
+				sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
+				rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
+
+				if (!b.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
+					rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
+				window.draw(rectangle);
+			}
+
+		// end the current frame
+		std::cout << "applying rules" << std::endl;
+		window.display();
+		b.applyRulesOnce();
+	}
+}
+
 class game
 {
 	board board;
@@ -13,8 +39,8 @@ class game
 public:
 	void runLoop()
 	{
-		float CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
-		float CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
+		auto CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
+		auto CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
 		bool rightClickPressed = false; // flag indicating weather to accept mouse inputs (left clicks)
 		bool playSelected = false;
@@ -132,6 +158,8 @@ public:
 						{
 							std::cout << "the right button was pressed" << std::endl;
 							rightClickPressed = !rightClickPressed;
+							//if (rightClickPressed)
+							//	work(window, board, rightClickPressed, playSelected, CELL_WIDTH, CELL_HEIGHT);
 							break;
 						}
 						else if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed)
@@ -140,8 +168,8 @@ public:
 							window.display();
 							std::cout << "the left button was pressed" << std::endl;
 
-							auto i = static_cast<int>(floor(event.mouseButton.x / CELL_WIDTH));
-							auto j = static_cast<int>(floor(event.mouseButton.y / CELL_HEIGHT));
+							auto n = static_cast<int>(floor(event.mouseButton.x / CELL_WIDTH));
+							auto m = static_cast<int>(floor(event.mouseButton.y / CELL_HEIGHT));
 							//std::cout << event.mouseButton.x << " " << event.mouseButton.y << std::endl;
 							//std::cout << i << " " << j << std::endl;
 							//std::cout << "cell " << CELL_WIDTH << " " << CELL_HEIGHT;
@@ -150,14 +178,13 @@ public:
 							//board.printBoardArray();
 							//std::cout << std::endl;
 
-							board.arr[j][i] = a; // the change
+							board.arr[m][n] = a; // the change !!!
 
 							//board.printBoardArray();
 							//std::cout << std::endl;
 
 							// draw the cells
 							window.clear(sf::Color::Black);
-
 
 							for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
 							{
@@ -187,6 +214,9 @@ public:
 			// game should be calculating/changing state
 			if (rightClickPressed && playSelected)
 			{
+				board.applyRulesOnce();
+				std::cout << "applying rules" << std::endl;
+
 				window.clear(sf::Color::Black);
 
 				// draw the cells
@@ -200,11 +230,9 @@ public:
 							rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 						window.draw(rectangle);
 					}
-
-				// end the current frame
-				std::cout << "applying rules" << std::endl;
 				window.display();
-				board.applyRulesOnce();
+				// end the current frame
+
 			}
 		}
 	}
