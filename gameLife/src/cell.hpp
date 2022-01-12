@@ -10,6 +10,5 @@ public:
 	void setDead() { value = false; }
 	void setAlive() { value = true; }
 	void change() { value = !value; }
-	
 };
 #endif // CELL_HPP

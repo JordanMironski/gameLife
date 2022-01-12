@@ -8,12 +8,11 @@
 bool isSafe(const int& i, const int& j);
 class board
 {
-	// std::array<std::array<cell, settings.BOARD_WIDTH>, settings.BOARD_HEIGHT> arr; //2d matrix
 	friend class game;
 	std::vector<std::vector<cell>> arr;
 
 private:
-	//	wheater the value of the cell should change
+	//	whether the value of the cell should change
 	bool checkNeighbours(const int& i, const int& j, const bool& value)
 	{
 		auto aliveCount = 0;

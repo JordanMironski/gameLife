@@ -6,16 +6,13 @@
 
 class game
 {
-	//friend class board;
 	board board;
 	menu menu;
 	// settings are global
+
 public:
 	void runLoop()
 	{
-		//board board();
-
-		//this->board = class board();
 		float CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
 		float CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
@@ -27,12 +24,6 @@ public:
 		cell d;
 		a.setAlive();
 		d.setDead();
-
-		//std::vector<std::vector<cell>> init(settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, d)); // i want this not to be here
-
-		//board board(init);
-		/*board board;
-		menu menu;*/
 
 		// create the window
 		sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
@@ -99,8 +90,6 @@ public:
 								settings.BOARD_WIDTH = numCellsRow;
 								CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
 								CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
-
-								//std::cout << "cell " << CELL_WIDTH << " " << CELL_HEIGHT;
 							}
 
 							window.setSize(sf::Vector2u(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
@@ -108,7 +97,6 @@ public:
 
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
-							//puts("-------------------------------------------");
 							this->board = class board();
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
@@ -180,17 +168,12 @@ public:
 
 									rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
 									//std::cout << CELL_WIDTH * static_cast<double>(j) << " " << CELL_HEIGHT * static_cast<double>(i) << " ";
-									//std::cout << "x";
-									//if (!board.arr[i][j].getValue()) // if is alive set color black (0, 0, 0)
 									if (!board.getCellValue(i, j))
 										rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 									window.draw(rectangle);
 								}
-								//puts("\n");
 							}
 							window.display();
-							//Sleep(5000);
-
 							break;
 						}
 						break;
@@ -222,8 +205,6 @@ public:
 				std::cout << "applying rules" << std::endl;
 				window.display();
 				board.applyRulesOnce();
-
-				//break;
 			}
 		}
 	}

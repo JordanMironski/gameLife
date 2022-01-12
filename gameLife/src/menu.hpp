@@ -36,8 +36,6 @@ public:
 
 	void draw(sf::RenderWindow& window)
 	{
-		//for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
-			//window.draw(data[i]);
 		for (auto& el : data)
 			window.draw(el);
 	}
@@ -65,6 +63,5 @@ private:
 	int selectedItemIndex;
 	sf::Font font;
 	std::array<sf::Text, MAX_NUMBER_OF_ITEMS> data;
-	//sf::Text data[MAX_NUMBER_OF_ITEMS];
 };
 #endif // MENU_HPP
