@@ -1,34 +1,7 @@
 #include "board.hpp"
 #include "settings.hpp"
 #include "menu.hpp"
-
 #include <Windows.h>
-
-void work(sf::RenderWindow& window, board& b, const bool rightClickPressed, const bool playSelected, const float CELL_WIDTH, const float CELL_HEIGHT)
-{
-	// game should be calculating/changing state
-	if (rightClickPressed && playSelected)
-	{
-		window.clear(sf::Color::Black);
-
-		// draw the cells
-		for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
-			for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
-			{
-				sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
-				rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
-
-				if (!b.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
-					rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
-				window.draw(rectangle);
-			}
-
-		// end the current frame
-		std::cout << "applying rules" << std::endl;
-		window.display();
-		b.applyRulesOnce();
-	}
-}
 
 class game
 {
@@ -158,8 +131,6 @@ public:
 						{
 							std::cout << "the right button was pressed" << std::endl;
 							rightClickPressed = !rightClickPressed;
-							//if (rightClickPressed)
-							//	work(window, board, rightClickPressed, playSelected, CELL_WIDTH, CELL_HEIGHT);
 							break;
 						}
 						else if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed)
@@ -215,7 +186,7 @@ public:
 			if (rightClickPressed && playSelected)
 			{
 				board.applyRulesOnce();
-				std::cout << "applying rules" << std::endl;
+				//std::cout << "applying rules" << std::endl;
 
 				window.clear(sf::Color::Black);
 
