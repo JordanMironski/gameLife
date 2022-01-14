@@ -10,7 +10,7 @@ class menu
 public:
 	menu()
 	{
-		if (!font.loadFromFile("fonts\\arial.ttf"))
+		if (!font.loadFromFile("../fonts/arial.ttf"))
 		{
 			// handle error
 			std::cout << "font error\n";

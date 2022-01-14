@@ -1,12 +1,13 @@
 #include "board.hpp"
 #include "settings.hpp"
 #include "menu.hpp"
-#include <Windows.h>
+#include <SFML/Window.hpp>
+#include <cmath>
 
 class game
 {
-	board board;
-	menu menu;
+	board _board;
+	menu _menu;
 	// settings are global
 
 public:
@@ -28,7 +29,7 @@ public:
 		sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
 		window.setVerticalSyncEnabled(true); // call it once, after creating the window
 		window.clear(sf::Color::Black);
-		menu.draw(window);
+		_menu.draw(window);
 		window.display();
 
 		while (window.isOpen())
@@ -47,21 +48,21 @@ public:
 					switch (event.key.code)
 					{
 					case sf::Keyboard::Up:
-						menu.MoveUp();
+						_menu.MoveUp();
 						window.clear(sf::Color::Black);
-						menu.draw(window);
+						_menu.draw(window);
 						window.display();
 						break;
 
 					case sf::Keyboard::Down:
-						menu.MoveDown();
+						_menu.MoveDown();
 						window.clear(sf::Color::Black);
-						menu.draw(window);
+						_menu.draw(window);
 						window.display();
 						break;
 
-					case sf::Keyboard::Return:
-						switch (menu.GetPressedItem())
+					case sf::Keyboard::Enter:
+						switch (_menu.GetPressedItem())
 						{
 						case 0:
 							std::cout << "Play button has been pressed" << std::endl;
@@ -96,7 +97,9 @@ public:
 
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
-							this->board = class board();
+
+							_board = board();
+
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
 
@@ -104,7 +107,12 @@ public:
 							puts("window size set");
 							playSelected = true;
 							sf::View view;
-							view.reset(sf::FloatRect(0, 0, settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
+                            sf::Vector2<float> position(0, 0);
+                            sf::Vector2<float> size(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT);
+                            sf::Rect<float> re(position, size);
+                            view.reset(static_cast<const sf::Rect<float> &>(re));
+
+							//view.reset(sf::FloatRect(0, 0, settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
 							window.setView(view);
 							window.display();
 							break;
@@ -149,7 +157,7 @@ public:
 							//board.printBoardArray();
 							//std::cout << std::endl;
 
-							board.arr[m][n] = a; // the change !!!
+							_board.arr[m][n] = a; // the change !!!
 
 							//board.printBoardArray();
 							//std::cout << std::endl;
@@ -164,9 +172,9 @@ public:
 									sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
 									//std::cout << "inside " << CELL_WIDTH << " " << CELL_HEIGHT;
 
-									rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
+									rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
 									//std::cout << CELL_WIDTH * static_cast<double>(j) << " " << CELL_HEIGHT * static_cast<double>(i) << " ";
-									if (!board.getCellValue(i, j))
+									if (!_board.getCellValue(i, j))
 										rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 									window.draw(rectangle);
 								}
@@ -185,7 +193,7 @@ public:
 			// game should be calculating/changing state
 			if (rightClickPressed && playSelected)
 			{
-				board.applyRulesOnce();
+				_board.applyRulesOnce();
 				//std::cout << "applying rules" << std::endl;
 
 				window.clear(sf::Color::Black);
@@ -195,9 +203,9 @@ public:
 					for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 					{
 						sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
-						rectangle.setPosition((CELL_WIDTH) * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i));
+						rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
 
-						if (!board.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
+						if (!_board.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
 							rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 						window.draw(rectangle);
 					}

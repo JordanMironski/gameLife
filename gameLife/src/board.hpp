@@ -27,7 +27,7 @@ private:
 				{
 					if (arr[ii][jj].getValue())
 						++aliveCount;	// you can break early if any of the counts > 3
-					// but since there are are only 8 neighbours no big perfomance gain
+					// but since there are only 8 neighbours no big performance gain
 				}
 			}
 		}
