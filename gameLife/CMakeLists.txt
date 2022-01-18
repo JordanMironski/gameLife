@@ -17,7 +17,7 @@ target_link_libraries(gameLife archive)
 if (WIN32)
     add_custom_command(
         TARGET gameLife POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E cp $<TARGET_RUNTIME_DLLS:gameLife> $<TARGET_FILE_DIR:gameLife>
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:gameLife> $<TARGET_FILE_DIR:gameLife>
         COMMAND_EXPAND_LISTS
     )
 endif()
