@@ -106,14 +106,14 @@ public:
 							window.clear(sf::Color::Black);
 							puts("window size set");
 							playSelected = true;
+
 							sf::View view;
                             sf::Vector2<float> position(0, 0);
                             sf::Vector2<float> size(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT);
                             sf::Rect<float> re(position, size);
                             view.reset(static_cast<const sf::Rect<float> &>(re));
-
-							//view.reset(sf::FloatRect(0, 0, settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
 							window.setView(view);
+
 							window.display();
 							break;
 						}
