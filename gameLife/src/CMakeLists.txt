@@ -1,4 +1,15 @@
 cmake_minimum_required(VERSION 3.20)
 
-add_library(archive INTERFACE board.hpp cell.hpp game.hpp menu.hpp settings.hpp)
-set_target_properties(archive PROPERTIES LINKER_LANGUAGE CXX)
+
+file(GLOB HEADER_LIST ${PROJECT_SOURCE_DIR}/include/gameLife/*.hpp)
+
+
+add_executable(gameLife main.cpp ${HEADER_LIST})
+
+
+target_include_directories(gameLife PRIVATE externals/SFML/include)
+target_include_directories(gameLife PUBLIC  ../include/gameLife)
+
+target_link_libraries(gameLife PRIVATE sfml-window sfml-graphics sfml-system)
+
+# set_target_properties(archive PROPERTIES LINKER_LANGUAGE CXX)

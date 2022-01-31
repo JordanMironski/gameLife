@@ -13,12 +13,6 @@ endif()
 add_subdirectory(src)
 add_subdirectory(externals/SFML)
 
-add_executable(gameLife src/main.cpp)
-
-target_include_directories(gameLife PRIVATE externals/SFML/include)
-
-target_link_libraries(gameLife PRIVATE sfml-window sfml-graphics sfml-system)
-target_link_libraries(gameLife PRIVATE archive)
 
 if (WIN32)
     add_custom_command(

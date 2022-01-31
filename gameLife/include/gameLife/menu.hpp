@@ -1,5 +1,5 @@
 #ifndef MENU_HPP
-#include <SFML/Graphics.hpp>
+#include "SFML/Graphics.hpp"
 #include <iostream>
 #include <array>
 #include "settings.hpp"

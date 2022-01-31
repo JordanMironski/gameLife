@@ -1,7 +1,7 @@
 #include "board.hpp"
 #include "settings.hpp"
 #include "menu.hpp"
-#include <SFML/Window.hpp>
+#include "SFML/Window.hpp"
 #include <cmath>
 
 class game
