@@ -13,7 +13,6 @@ endif()
 add_subdirectory(src)
 add_subdirectory(externals/SFML)
 
-
 if (WIN32)
     add_custom_command(
         TARGET gameLife POST_BUILD
