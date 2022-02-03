@@ -9,3 +9,11 @@ target_include_directories(gameLife PRIVATE externals/SFML/include)
 target_include_directories(gameLife PUBLIC  ${PROJECT_SOURCE_DIR}/include/gameLife)
 
 target_link_libraries(gameLife PRIVATE sfml-window sfml-graphics sfml-system)
+
+if (WIN32)
+  add_custom_command(
+       TARGET gameLife POST_BUILD
+       COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:gameLife> $<TARGET_FILE_DIR:gameLife>
+       COMMAND_EXPAND_LISTS
+    )
+endif()
