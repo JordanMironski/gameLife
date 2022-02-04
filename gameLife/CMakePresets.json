@@ -38,9 +38,9 @@
     },
     {
       "name": "linux-default",
-      "displayName": "Linux Debug",
-      "description": "Sets ninja-multi generator, compilers, build and install directory, debug build type",
-      "generator": "Ninja Multi-Config",
+      "displayName": "Linux Default",
+      "description": "Sets ninja generator, compilers, build and install directory, debug build type",
+      "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "condition": {
         "type": "equals",
@@ -55,8 +55,8 @@
     {
       "name": "linux-release",
       "displayName": "Linux Release",
-      "description": "Sets ninja-multi generator, compilers, build and install directory, release build type",
-      "generator": "Ninja Multi-Config",
+      "description": "Sets ninja generator, compilers, build and install directory, release build type",
+      "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "condition": {
         "type": "equals",
