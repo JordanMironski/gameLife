@@ -19,11 +19,53 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+      }
+    },
+    {
+      "name": "windows-release",
+      "displayName": "Windows x64 Release",
+      "description": "Sets VS generator, compilers, x64 architecture, build and install directory, release build type",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
       },
-      "vendor": {
-        "microsoft.com/VisualStudioSettings/CMake/1.0": {
-          "hostOS": [ "Windows" ]
-        }
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+      }
+    },
+    {
+      "name": "linux-default",
+      "displayName": "Linux Debug",
+      "description": "Sets ninja-multi generator, compilers, build and install directory, debug build type",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+      }
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux Release",
+      "description": "Sets ninja-multi generator, compilers, build and install directory, release build type",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
       }
     }
   ],
@@ -32,6 +74,21 @@
       "name": "win-debug",
       "displayName": "Debug Default",
       "configurePreset": "windows-default"
+    },
+    {
+      "name": "win-release",
+      "displayName": "Release Default",
+      "configurePreset": "windows-release"
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "Debug Default",
+      "configurePreset": "linux-default"
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Release Default",
+      "configurePreset": "linux-release"
     }
   ]
 }
