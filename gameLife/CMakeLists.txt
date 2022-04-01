@@ -1,22 +1,18 @@
 cmake_minimum_required(VERSION 3.20)
 
+# set the project name
 project(gameLife)
 
-set(CMAKE_CXX_STANDARD 20)
+# specify the C++ standard
 
-if (MSVC)
-    add_compile_options(/W4)
-else ()
-    add_compile_options(-W -Wall)
-endif()
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# control where the static and shared libraries are built so that on windows
+# we don't need to tinker with the path to run the executable
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}")
 
 add_subdirectory(src)
 add_subdirectory(externals/SFML)
-
-#if (WIN32)
-#  add_custom_command(
-#       TARGET gameLife POST_BUILD
-#       COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:gameLife> $<TARGET_FILE_DIR:gameLife>
-#       COMMAND_EXPAND_LISTS
-#    )
-#endif()
