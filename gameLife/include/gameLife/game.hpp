@@ -162,7 +162,7 @@ public:
 							//std::cout << std::endl;
 
 							//board.arr[m][n] = a; // the change !!!
-                            board.arr[m][n].setAlive(); // the change !!!
+							board.arr[m][n] = true; // the change !!!
 							//board.printBoardArray();
 							//std::cout << std::endl;
 

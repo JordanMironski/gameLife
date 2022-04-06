@@ -2,13 +2,12 @@
 #define BOARD_HPP
 #include <vector>
 #include <iostream>
-#include "cell.hpp"
 #include "settings.hpp"
 
 class Board
 {
 	friend class Game;
-	std::vector<std::vector<Cell>> arr;
+	std::vector<std::vector<bool>> arr;
 
 private:
 	//	whether the value of the cell should change
@@ -24,7 +23,7 @@ private:
 					continue;
 				if (isSafe(ii, jj))
 				{
-					if (arr[ii][jj].getValue())
+					if (arr[ii][jj])
 						++aliveCount;	// you can break early if any of the counts > 3
 					// but since there are only 8 neighbours no big performance gain
 				}
@@ -37,14 +36,14 @@ private:
 		return value; // else change if alive or stay if dead
 	}
 public:
-	Board(std::vector<std::vector<Cell>> arr = std::vector<std::vector<Cell>>(settings.BOARD_HEIGHT, std::vector<Cell>(settings.BOARD_WIDTH, Cell()))) : arr(std::move(arr))
+	Board(std::vector<std::vector<bool>> arr = std::vector<std::vector<bool>>(settings.BOARD_HEIGHT, std::vector<bool>(settings.BOARD_WIDTH, false))) : arr(std::move(arr))
 	{}
 
 	void clearBoard() { arr = {}; }
 
-	[[nodiscard]] bool getCellValue(const int& i, const int& j) const
+	bool getCellValue(const int& i, const int& j) const
 	{
-		return arr.at(i).at(j).getValue();
+		return arr.at(i).at(j);
 	}
 
 	/*
@@ -60,13 +59,13 @@ public:
 		{
 			for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 			{
-				if (checkNeighbours(i, j, arr[i][j].getValue()))
+				if (checkNeighbours(i, j, arr[i][j]))
 				{
-					if (nextState.arr[i][j].getValue() == arr[i][j].getValue())
-						nextState.arr[i][j].change();
+					if (nextState.arr[i][j] == arr[i][j])
+						nextState.arr[i][j] = !nextState.arr[i][j];
 				}
-				else if (nextState.arr[i][j].getValue() != arr[i][j].getValue())
-					nextState.arr[i][j].change();
+				else if (nextState.arr[i][j] != arr[i][j])
+					nextState.arr[i][j] = !nextState.arr[i][j];
 			}
 		}
 
@@ -84,7 +83,7 @@ public:
 		for (const auto& row : arr)
 		{
 			for (const auto& cell : row)
-				std::cout << cell.getValue() << ' ';
+				std::cout << cell << ' ';
 			puts("\n");
 		}
 	}
