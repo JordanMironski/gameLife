@@ -2,7 +2,7 @@
 
 int main()
 {
-    game game;
+    Game game;
     game.runLoop();
     return 0;
 }

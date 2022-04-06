@@ -6,10 +6,10 @@
 #include "settings.hpp"
 
 bool isSafe(const int& i, const int& j);
-class board
+class Board
 {
-	friend class game;
-	std::vector<std::vector<cell>> arr;
+	friend class Game;
+	std::vector<std::vector<Cell>> arr;
 
 private:
 	//	whether the value of the cell should change
@@ -39,7 +39,7 @@ private:
 
 	}
 public:
-	board(std::vector<std::vector<cell>> arr = std::vector<std::vector<cell>>(settings.BOARD_HEIGHT, std::vector<cell>(settings.BOARD_WIDTH, cell()))) : arr(std::move(arr))
+	Board(std::vector<std::vector<Cell>> arr = std::vector<std::vector<Cell>>(settings.BOARD_HEIGHT, std::vector<Cell>(settings.BOARD_WIDTH, Cell()))) : arr(std::move(arr))
 	{}
 
 	void clearBoard() { arr = {}; }
@@ -52,11 +52,11 @@ public:
 	/*
 	 *	1. Any live cell with two or three live neighbours survives.
 		2. Any dead cell with three live neighbours becomes a live cell.
-		3. All other live cells die in the next generation. Similarly, all other dead cells stay dead
+		3. All other alive cells die in the next generation. Similarly, all other dead cells stay dead
 	 */
 	void applyRulesOnce()
 	{
-		board nextState;
+		Board nextState;
 
 		for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
 		{

@@ -5,10 +5,10 @@
 #include "settings.hpp"
 constexpr unsigned short MAX_NUMBER_OF_ITEMS = 3;
 
-class menu
+class Menu
 {
 public:
-	menu()
+	Menu()
 	{
         #ifdef _WIN32
 			if (!font.loadFromFile("../../../fonts/arial.ttf"))
@@ -48,7 +48,7 @@ public:
 		for (auto& el : data)
 			window.draw(el);
 	}
-	void MoveUp()
+	void moveUp()
 	{
 		if (selectedItemIndex - 1 >= 0)
 		{
@@ -57,7 +57,7 @@ public:
 			data[selectedItemIndex].setFillColor(sf::Color::Red);
 		}
 	}
-	void MoveDown()
+	void moveDown()
 	{
 		if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
 		{
@@ -66,7 +66,7 @@ public:
 			data[selectedItemIndex].setFillColor(sf::Color::Red);
 		}
 	}
-	int GetPressedItem() const { return selectedItemIndex; }
+	int getPressedItem() const { return selectedItemIndex; }
 
 private:
 	int selectedItemIndex;

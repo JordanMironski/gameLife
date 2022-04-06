@@ -4,34 +4,40 @@
 #include "SFML/Window.hpp"
 #include <cmath>
 
-class game
+class Game
 {
-	board _board;
-	menu _menu;
+	Board board;
+	Menu menu;
 	// settings are global
 
 public:
+    /*
+     * 1. handle user input
+     * 2. update game state
+     * 3. draw
+     */
 	void runLoop()
 	{
 		auto CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
 		auto CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
-		bool rightClickPressed = false; // flag indicating weather to accept mouse inputs (left clicks)
+		bool rightClickPressed = false; // flag indicating weather to accept mouse inputs (left clicks); works like a pause button
 		bool playSelected = false;
 		bool optionsSelected = false;
 
-		cell a;
-		cell d;
-		a.setAlive();
-		d.setDead();
+        //Cell a;
+        //Cell d;
+		//a.setAlive();
+		//d.setDead();
 
 		// create the window
 		sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
 		window.setVerticalSyncEnabled(true); // call it once, after creating the window
 		window.clear(sf::Color::Black);
-		_menu.draw(window);
+        // draw the manu
+		menu.draw(window);
 		window.display();
-
+        // The actual game loop
 		while (window.isOpen())
 		{
 			// check all the window's events that were triggered since the last iteration of the loop
@@ -48,21 +54,21 @@ public:
 					switch (event.key.code)
 					{
 					case sf::Keyboard::Up:
-						_menu.MoveUp();
+						menu.moveUp();
 						window.clear(sf::Color::Black);
-						_menu.draw(window);
+						menu.draw(window);
 						window.display();
 						break;
 
 					case sf::Keyboard::Down:
-						_menu.MoveDown();
+                        menu.moveDown();
 						window.clear(sf::Color::Black);
-						_menu.draw(window);
+						menu.draw(window);
 						window.display();
 						break;
 
 					case sf::Keyboard::Enter:
-						switch (_menu.GetPressedItem())
+						switch (menu.getPressedItem())
 						{
 						case 0:
 							std::cout << "Play button has been pressed" << std::endl;
@@ -84,10 +90,10 @@ public:
 							std::cin >> numCellsRow >> numCellsCol;
 							if (numCellsRow < resolutionWidth && numCellsCol < resolutionHeight)
 							{
-								settings.WINDOW_HEIGHT = resolutionHeight;
-								settings.WINDOW_WIDTH = resolutionWidth;
-								settings.BOARD_HEIGHT = numCellsCol;
-								settings.BOARD_WIDTH = numCellsRow;
+                                settings.WINDOW_HEIGHT = resolutionHeight;
+                                settings.WINDOW_WIDTH = resolutionWidth;
+                                settings.BOARD_HEIGHT = numCellsCol;
+                                settings.BOARD_WIDTH = numCellsRow;
 								CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
 								CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 							}
@@ -98,7 +104,7 @@ public:
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
 
-							_board = board();
+							board = Board();
 
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
@@ -157,8 +163,8 @@ public:
 							//board.printBoardArray();
 							//std::cout << std::endl;
 
-							_board.arr[m][n] = a; // the change !!!
-
+							//board.arr[m][n] = a; // the change !!!
+                            board.arr[m][n].setAlive(); // the change !!!
 							//board.printBoardArray();
 							//std::cout << std::endl;
 
@@ -174,7 +180,7 @@ public:
 
 									rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
 									//std::cout << CELL_WIDTH * static_cast<double>(j) << " " << CELL_HEIGHT * static_cast<double>(i) << " ";
-									if (!_board.getCellValue(i, j))
+									if (!board.getCellValue(i, j))
 										rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 									window.draw(rectangle);
 								}
@@ -193,7 +199,7 @@ public:
 			// game should be calculating/changing state
 			if (rightClickPressed && playSelected)
 			{
-				_board.applyRulesOnce();
+				board.applyRulesOnce();
 				//std::cout << "applying rules" << std::endl;
 
 				window.clear(sf::Color::Black);
@@ -205,13 +211,12 @@ public:
 						sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
 						rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
 
-						if (!_board.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
+						if (!board.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
 							rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 						window.draw(rectangle);
 					}
 				window.display();
 				// end the current frame
-
 			}
 		}
 	}

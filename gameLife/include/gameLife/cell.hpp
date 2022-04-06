@@ -1,7 +1,7 @@
 #ifndef CELL_HPP
 #define CELL_HPP
 
-class cell
+class Cell
 {
 	bool value = false;
 public:

@@ -1,6 +1,6 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
-struct settings
+struct Settings
 {
 	int WINDOW_WIDTH = 800;
 	int WINDOW_HEIGHT = 800;
