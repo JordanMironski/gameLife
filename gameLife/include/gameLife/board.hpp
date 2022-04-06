@@ -5,7 +5,6 @@
 #include "cell.hpp"
 #include "settings.hpp"
 
-bool isSafe(const int& i, const int& j);
 class Board
 {
 	friend class Game;
@@ -36,7 +35,6 @@ private:
 		if (!value && (aliveCount == 3))				   // rule 2
 			return true;
 		return value; // else change if alive or stay if dead
-
 	}
 public:
 	Board(std::vector<std::vector<Cell>> arr = std::vector<std::vector<Cell>>(settings.BOARD_HEIGHT, std::vector<Cell>(settings.BOARD_WIDTH, Cell()))) : arr(std::move(arr))
@@ -75,6 +73,12 @@ public:
 		*this = nextState; // should be a move
 	}
 
+    bool isSafe(const int& i, const int& j)
+    {
+        return (i >= 0 && i < settings.BOARD_HEIGHT &&
+                j >= 0 && j < settings.BOARD_WIDTH);
+    }
+
 	void printBoardArray() const
 	{
 		for (const auto& row : arr)
@@ -85,9 +89,4 @@ public:
 		}
 	}
 };
-bool isSafe(const int& i, const int& j)
-{
-	return (i >= 0 && i < settings.BOARD_HEIGHT &&
-		j >= 0 && j < settings.BOARD_WIDTH);
-}
 #endif // BOARD_HPP

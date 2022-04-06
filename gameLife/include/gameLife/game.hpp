@@ -11,13 +11,9 @@ class Game
 	// settings are global
 
 public:
-    /*
-     * 1. handle user input
-     * 2. update game state
-     * 3. draw
-     */
 	void runLoop()
 	{
+        // Some initial steps before starting the game
 		auto CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
 		auto CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
@@ -25,19 +21,21 @@ public:
 		bool playSelected = false;
 		bool optionsSelected = false;
 
-        //Cell a;
-        //Cell d;
-		//a.setAlive();
-		//d.setDead();
-
 		// create the window
 		sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
 		window.setVerticalSyncEnabled(true); // call it once, after creating the window
 		window.clear(sf::Color::Black);
-        // draw the manu
+
+        // draw the menu
 		menu.draw(window);
 		window.display();
+
         // The actual game loop
+        /*
+         * 1. handle user input
+         * 2. update game state
+         * 3. draw
+         */
 		while (window.isOpen())
 		{
 			// check all the window's events that were triggered since the last iteration of the loop
@@ -136,7 +134,7 @@ public:
 						break;
 					}
 
-					// mouse pressed
+                // mouse pressed
 				case sf::Event::MouseButtonPressed:
 				{
 					if (playSelected)
@@ -147,7 +145,7 @@ public:
 							rightClickPressed = !rightClickPressed;
 							break;
 						}
-						else if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed)
+						if (event.mouseButton.button == sf::Mouse::Left && !rightClickPressed)
 						{
 							window.clear(sf::Color::Black);
 							window.display();
@@ -211,7 +209,7 @@ public:
 						sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
 						rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
 
-						if (!board.getCellValue(i, j)) // if is alive set color black (0, 0, 0)
+						if (!board.getCellValue(i, j)) // if is dead set color black (0, 0, 0)
 							rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 						window.draw(rectangle);
 					}
