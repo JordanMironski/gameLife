@@ -1,28 +1,28 @@
-#include "board.hpp"
-#include "settings.hpp"
-#include "menu.hpp"
-#include "SFML/Window.hpp"
 #include <cmath>
+
+#include "board.hpp"
+#include "menu.hpp"
+#include "settings.hpp"
+#include "SFML/Window.hpp"
 
 class Game
 {
 	Settings settings;
-	Board board;
-	Menu menu;
+	Board board = Board(&settings);
+	Menu menu = Menu(&settings);
 	
 public:
 	void runLoop()
 	{
         // Some initial steps before starting the game
-		auto CELL_WIDTH = board.settings.WINDOW_WIDTH / static_cast<float>(board.settings.BOARD_WIDTH); // narrowing conversion from int -> float
-		auto CELL_HEIGHT = board.settings.WINDOW_HEIGHT / static_cast<float>(board.settings.BOARD_HEIGHT);
+		auto CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
+		auto CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 
 		bool rightClickPressed = false; // flag indicating weather to accept mouse inputs (left clicks); works like a pause button
 		bool playSelected = false;
-		bool optionsSelected = false;
 
 		// create the window
-		sf::RenderWindow window(sf::VideoMode(board.settings.WINDOW_WIDTH, board.settings.WINDOW_HEIGHT), "Game of Life");
+		sf::RenderWindow window(sf::VideoMode(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), "Game of Life");
 		window.setVerticalSyncEnabled(true); // call it once, after creating the window
 		window.clear(sf::Color::Black);
 
@@ -88,21 +88,21 @@ public:
 							std::cin >> numCellsRow >> numCellsCol;
 							if (numCellsRow < resolutionWidth && numCellsCol < resolutionHeight)
 							{
-								board.settings.WINDOW_HEIGHT = resolutionHeight;
-								board.settings.WINDOW_WIDTH = resolutionWidth;
-								board.settings.BOARD_HEIGHT = numCellsCol;
-								board.settings.BOARD_WIDTH = numCellsRow;
-								CELL_WIDTH = board.settings.WINDOW_WIDTH / static_cast<float>(board.settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
-								CELL_HEIGHT = board.settings.WINDOW_HEIGHT / static_cast<float>(board.settings.BOARD_HEIGHT);
+								settings.WINDOW_HEIGHT = resolutionHeight;
+								settings.WINDOW_WIDTH = resolutionWidth;
+								settings.BOARD_HEIGHT = numCellsCol;
+								settings.BOARD_WIDTH = numCellsRow;
+								CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
+								CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
 							}
 
-							window.setSize(sf::Vector2u(board.settings.WINDOW_WIDTH, board.settings.WINDOW_HEIGHT));
+							window.setSize(sf::Vector2u(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
 							window.display();
 
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
 
-							board = Board(settings);
+							board = Board(&settings);
 
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
@@ -113,7 +113,7 @@ public:
 
 							sf::View view;
                             sf::Vector2<float> position(0, 0);
-                            sf::Vector2<float> size(board.settings.WINDOW_WIDTH, board.settings.WINDOW_HEIGHT);
+                            sf::Vector2<float> size(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT);
                             sf::Rect<float> re(position, size);
                             view.reset(static_cast<const sf::Rect<float> &>(re));
 							window.setView(view);
@@ -161,17 +161,17 @@ public:
 							//board.printBoardArray();
 							//std::cout << std::endl;
 
-							//board.arr[m][n] = a; // the change !!!
 							board.arr[m][n] = true; // the change !!!
+
 							//board.printBoardArray();
 							//std::cout << std::endl;
 
 							// draw the cells
 							window.clear(sf::Color::Black);
 
-							for (auto i = 0; i < board.settings.BOARD_HEIGHT; ++i)
+							for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
 							{
-								for (auto j = 0; j < board.settings.BOARD_WIDTH; ++j)
+								for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 								{
 									sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
 									//std::cout << "inside " << CELL_WIDTH << " " << CELL_HEIGHT;
@@ -203,8 +203,8 @@ public:
 				window.clear(sf::Color::Black);
 
 				// draw the cells
-				for (auto i = 0; i < board.settings.BOARD_HEIGHT; ++i)
-					for (auto j = 0; j < board.settings.BOARD_WIDTH; ++j)
+				for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
+					for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 					{
 						sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
 						rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));

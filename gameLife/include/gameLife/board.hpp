@@ -2,12 +2,13 @@
 #define BOARD_HPP
 #include <vector>
 #include <iostream>
+
 #include "settings.hpp"
 
 class Board
 {
 	friend class Game;
-	Settings& settings;
+	Settings* settings;
 	std::vector<std::vector<bool>> arr;
 
 private:
@@ -37,9 +38,8 @@ private:
 		return value; // else change if alive or stay if dead
 	}
 public:
-	Board(Settings& settings = Settings()) : settings(settings), arr(std::vector<std::vector<bool>>(settings.BOARD_HEIGHT, std::vector<bool>(settings.BOARD_WIDTH, false)))
-	{
-	}
+	Board(Settings* settings) : settings(settings), arr(std::vector<std::vector<bool>>(settings->BOARD_HEIGHT, std::vector<bool>(settings->BOARD_WIDTH, false)))
+	{}
 
 	void clearBoard() { arr = {}; }
 
@@ -55,11 +55,11 @@ public:
 	 */
 	void applyRulesOnce()
 	{
-		Board nextState;
+		Board nextState(settings);
 
-		for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
+		for (auto i = 0; i < settings->BOARD_HEIGHT; ++i)
 		{
-			for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
+			for (auto j = 0; j < settings->BOARD_WIDTH; ++j)
 			{
 				if (checkNeighbours(i, j, arr[i][j]))
 				{
@@ -76,8 +76,8 @@ public:
 
     bool isSafe(const int& i, const int& j)
     {
-        return (i >= 0 && i < settings.BOARD_HEIGHT &&
-                j >= 0 && j < settings.BOARD_WIDTH);
+        return (i >= 0 && i < settings->BOARD_HEIGHT &&
+                j >= 0 && j < settings->BOARD_WIDTH);
     }
 
 	void printBoardArray() const

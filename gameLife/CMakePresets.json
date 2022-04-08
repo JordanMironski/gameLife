@@ -14,11 +14,10 @@
       "binaryDir": "${sourceDir}/build/${presetName}",
       "architecture": {
         "value": "x64",
-        "strategy": "external"
+        "strategy": "set"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+        "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
@@ -29,18 +28,17 @@
       "binaryDir": "${sourceDir}/build/${presetName}",
       "architecture": {
         "value": "x64",
-        "strategy": "external"
+        "strategy": "set"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
       "name": "linux-default",
       "displayName": "Linux Default",
-      "description": "Sets ninja generator, compilers, build and install directory, debug build type",
-      "generator": "Ninja",
+      "description": "Sets Ninja Multi-Config generator, compilers, build and install directory, debug build type",
+      "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "condition": {
         "type": "equals",
@@ -49,14 +47,14 @@
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+        "CMAKE_CXX_FLAGS": "-Wall -Wextra"
       }
     },
     {
       "name": "linux-release",
       "displayName": "Linux Release",
-      "description": "Sets ninja generator, compilers, build and install directory, release build type",
-      "generator": "Ninja",
+      "description": "Sets Ninja Multi-Config generator, compilers, build and install directory, release build type",
+      "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "condition": {
         "type": "equals",
@@ -64,8 +62,7 @@
         "rhs": "Linux"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_INSTALL_PREFIX": "${sourceDir}/install/${presetName}"
+        "CMAKE_BUILD_TYPE": "Release"
       }
     }
   ],
