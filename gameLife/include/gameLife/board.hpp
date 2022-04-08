@@ -7,6 +7,7 @@
 class Board
 {
 	friend class Game;
+	Settings& settings;
 	std::vector<std::vector<bool>> arr;
 
 private:
@@ -36,8 +37,9 @@ private:
 		return value; // else change if alive or stay if dead
 	}
 public:
-	Board(std::vector<std::vector<bool>> arr = std::vector<std::vector<bool>>(settings.BOARD_HEIGHT, std::vector<bool>(settings.BOARD_WIDTH, false))) : arr(std::move(arr))
-	{}
+	Board(Settings& settings = Settings()) : settings(settings), arr(std::vector<std::vector<bool>>(settings.BOARD_HEIGHT, std::vector<bool>(settings.BOARD_WIDTH, false)))
+	{
+	}
 
 	void clearBoard() { arr = {}; }
 
@@ -69,7 +71,7 @@ public:
 			}
 		}
 
-		*this = nextState; // should be a move
+		*this = std::move(nextState); // should be a move
 	}
 
     bool isSafe(const int& i, const int& j)

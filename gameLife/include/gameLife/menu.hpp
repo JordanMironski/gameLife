@@ -8,7 +8,7 @@ constexpr unsigned short MAX_NUMBER_OF_ITEMS = 3;
 class Menu
 {
 public:
-	Menu()
+	Menu(Settings& setttings = Settings()): settings(settings)
 	{
         #ifdef _WIN32
 			if (!font.loadFromFile("../../../fonts/arial.ttf"))
@@ -72,5 +72,6 @@ private:
 	int selectedItemIndex;
 	sf::Font font;
 	std::array<sf::Text, MAX_NUMBER_OF_ITEMS> data;
+	Settings& settings;
 };
 #endif // MENU_HPP
