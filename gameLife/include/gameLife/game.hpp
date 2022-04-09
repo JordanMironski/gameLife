@@ -10,14 +10,19 @@ class Game
 	Settings settings;
 	Board board = Board(&settings);
 	Menu menu = Menu(&settings);
+
 	
 public:
+
+
 	void runLoop()
 	{
         // Some initial steps before starting the game
-		auto CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // narrowing conversion from int -> float
-		auto CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
+		double CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH);
+		double CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<double>(settings.BOARD_HEIGHT);
 
+        /*float CELL_WIDTH = settings.WINDOW_WIDTH / settings.BOARD_WIDTH; // narrowing conversion from int -> float
+        float CELL_HEIGHT = settings.WINDOW_HEIGHT / settings.BOARD_HEIGHT;*/
 		bool rightClickPressed = false; // flag indicating weather to accept mouse inputs (left clicks); works like a pause button
 		bool playSelected = false;
 
@@ -92,11 +97,14 @@ public:
 								settings.WINDOW_WIDTH = resolutionWidth;
 								settings.BOARD_HEIGHT = numCellsCol;
 								settings.BOARD_WIDTH = numCellsRow;
-								CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<float>(settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
-								CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<float>(settings.BOARD_HEIGHT);
+								CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH); // recalculating. narrowing conversion from int -> float
+								CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<double>(settings.BOARD_HEIGHT);
+
+                                /*CELL_WIDTH = settings.WINDOW_WIDTH / settings.BOARD_WIDTH; // recalculating. narrowing conversion from int -> float
+                                CELL_HEIGHT = settings.WINDOW_HEIGHT / settings.BOARD_HEIGHT;*/
 							}
 
-							window.setSize(sf::Vector2u(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
+							window.setSize(sf::Vector2<unsigned int>(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT));
 							window.display();
 
 							/*board.printBoardArray();
@@ -112,10 +120,16 @@ public:
 							playSelected = true;
 
 							sf::View view;
-                            sf::Vector2<float> position(0, 0);
-                            sf::Vector2<float> size(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT);
-                            sf::Rect<float> re(position, size);
-                            view.reset(static_cast<const sf::Rect<float> &>(re));
+                            sf::Vector2<double> position(0, 0);
+                            sf::Vector2<double> size(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT);
+                            sf::Rect<float> re(static_cast<sf::Vector2<float>>(position), static_cast<sf::Vector2<float>>(size));
+                            //view.reset(static_cast<const sf::Rect<float> &>(re));
+                            view.reset(re);
+
+                            /*sf::Vector2<int> position(0, 0);
+                            sf::Vector2<int> size(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT);
+                            sf::Rect<int> re(position, size);
+                            view.reset(static_cast<sf::Rect<float>>(re));*/
 							window.setView(view);
 
 							window.display();
@@ -173,11 +187,16 @@ public:
 							{
 								for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 								{
-									sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
-									//std::cout << "inside " << CELL_WIDTH << " " << CELL_HEIGHT;
+									//sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
+                                    //sf::RectangleShape rectangle(sf::Vector2<int>(CELL_WIDTH, CELL_HEIGHT));
+                                    sf::RectangleShape rectangle(static_cast<sf::Vector2f>(sf::Vector2<double>(CELL_WIDTH, CELL_HEIGHT)));
+
+                                    //std::cout << "inside " << CELL_WIDTH << " " << CELL_HEIGHT;
 
 									rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
-									//std::cout << CELL_WIDTH * static_cast<double>(j) << " " << CELL_HEIGHT * static_cast<double>(i) << " ";
+                                    //rectangle.setPosition(sf::Vector2(CELL_WIDTH * j, CELL_HEIGHT * i));
+
+                                    //std::cout << CELL_WIDTH * static_cast<double>(j) << " " << CELL_HEIGHT * static_cast<double>(i) << " ";
 									if (!board.getCellValue(i, j))
 										rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
 									window.draw(rectangle);
@@ -206,8 +225,10 @@ public:
 				for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
 					for (auto j = 0; j < settings.BOARD_WIDTH; ++j)
 					{
-						sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
-						rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
+						//sf::RectangleShape rectangle(sf::Vector2f(CELL_WIDTH, CELL_HEIGHT));
+                        sf::RectangleShape rectangle(static_cast<sf::Vector2f>(sf::Vector2<double>(CELL_WIDTH, CELL_HEIGHT)));
+
+                        rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
 
 						if (!board.getCellValue(i, j)) // if is dead set color black (0, 0, 0)
 							rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default

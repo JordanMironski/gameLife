@@ -26,8 +26,7 @@ private:
 				if (isSafe(ii, jj))
 				{
 					if (arr[ii][jj])
-						++aliveCount;	// you can break early if any of the counts > 3
-					// but since there are only 8 neighbours no big performance gain
+						++aliveCount;	// you can break early if > 3
 				}
 			}
 		}
