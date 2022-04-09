@@ -8,17 +8,19 @@
 class Game
 {
 	Settings settings;
-	Board board = Board(&settings);
+	//Board board = Board(&settings);
+    std::unique_ptr<Board> board;
 	Menu menu = Menu(&settings);
 
 	
 public:
-
+    virtual std::unique_ptr<Board> boardFactory() { return std::make_unique<Board>(&settings); }
 
 	void runLoop()
 	{
         // Some initial steps before starting the game
-		double CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH);
+        board = boardFactory();
+        double CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH);
 		double CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<double>(settings.BOARD_HEIGHT);
 
         /*float CELL_WIDTH = settings.WINDOW_WIDTH / settings.BOARD_WIDTH; // narrowing conversion from int -> float
