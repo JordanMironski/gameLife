@@ -1,25 +1,115 @@
 #include <cmath>
-
+#include <functional>
 #include "board.hpp"
 #include "menu.hpp"
 #include "settings.hpp"
 #include "SFML/Window.hpp"
 
+struct StateFactory
+{
+    std::function<StateFactory(sf::RenderWindow&, Settings& settings)> m_function;
+};
+
+
+StateFactory doOptions(sf::RenderWindow& window, Settings& settings)
+{
+    while (true)
+    {
+        return {};
+    }
+}
+
+StateFactory doGameOfLife(sf::RenderWindow& window, Settings& settings)
+{
+    while (true)
+    {
+        return{};
+    }
+}
+StateFactory doMainMenu(sf::RenderWindow& window, Settings& settings)
+{
+    auto menu = Menu(settings); // we can use your `Menu` class as a local variable here.
+    bool flag = true;
+    while (true)
+    {
+        // get input
+        auto event = sf::Event();
+        while (window.pollEvent(event))
+        {
+            switch (event.type) {
+                case sf::Event::Closed: {
+                    return {}; // done! return a state factory with no "next state" function
+                }
+                case sf::Event::KeyPressed: {
+                    switch (event.key.code) {
+                        case sf::Keyboard::Up: {
+                            menu.moveUp();
+                            flag = true;
+                            break;
+                        }
+                        case sf::Keyboard::Down: {
+                            menu.moveDown();
+                            flag = true;
+                            break;
+                        }
+                        case sf::Keyboard::Enter: {
+                            switch (menu.getPressedItem()) {
+                                case 0: // Play
+                                {
+                                    return {[](sf::RenderWindow &window, Settings &settings) {
+                                        return doGameOfLife(window, settings);
+                                    }}; // go to game state
+                                }
+                                case 1: // options
+                                {
+                                    return {[](sf::RenderWindow &window, Settings &settings) {
+                                        return doOptions(window, settings);
+                                    }}; // go to options
+                                }
+                                case 2: {
+                                    window.close();
+                                    return {};
+                                }
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+                default:
+                    break;
+            }
+        }
+
+        // draw the menu
+        if (flag) {
+            menu.draw(window);
+            window.display();
+        }
+        flag = false;
+
+    }
+}
+
+
+
+
+
 class Game
 {
 	Settings settings;
-	//Board board = Board(&settings);
-    std::unique_ptr<Board> board;
-	Menu menu = Menu(&settings);
+	Board board = Board(&settings);
+    //std::unique_ptr<Board> board;
+	Menu menu = Menu(settings);
 
 	
 public:
-    virtual std::unique_ptr<Board> boardFactory() { return std::make_unique<Board>(&settings); }
+    //virtual std::unique_ptr<Board> boardFactory() { return std::make_unique<Board>(&settings); }
 
 	void runLoop()
 	{
         // Some initial steps before starting the game
-        board = boardFactory();
+        //board = boardFactory();
         double CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH);
 		double CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<double>(settings.BOARD_HEIGHT);
 
