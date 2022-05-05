@@ -13,21 +13,79 @@ struct StateFactory
 
 StateFactory doOptions(sf::RenderWindow& window, Settings& settings)
 {
-    while (true)
-    {
-        return {};
-    }
+
 }
 
 StateFactory doGameOfLife(sf::RenderWindow& window, Settings& settings)
 {
-    while (true)
-    {
-        return{};
+    std::cout << "Play state" << std::endl;
+    bool firstTime = true;
+    bool rightClickPressed = false;
+    bool leftClickPressed = false;
+    auto board = Board(settings);
+    double CELL_WIDTH = settings.WINDOW_WIDTH / static_cast<double>(settings.BOARD_WIDTH);
+    double CELL_HEIGHT = settings.WINDOW_HEIGHT / static_cast<double>(settings.BOARD_HEIGHT);
+    auto event = sf::Event();
+
+    while (window.isOpen()) {
+        while (window.pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::MouseButtonPressed: {
+                    switch (event.mouseButton.button) {
+                        case sf::Mouse::Left: {
+                            std::cout << "the left button was pressed" << std::endl;
+                            leftClickPressed = !leftClickPressed; // !!!
+                            auto n = static_cast<int>(floor(event.mouseButton.x / CELL_WIDTH));
+                            auto m = static_cast<int>(floor(event.mouseButton.y / CELL_HEIGHT));
+                            //board.arr[m][n] = true; // the change !!!
+                            board.setAlive(m, n);
+                            break;
+                        }
+                        case sf::Mouse::Right: {
+                            std::cout << "the right button was pressed" << std::endl;
+                            rightClickPressed = !rightClickPressed;
+                            break;
+                        }
+                        default:
+                            break;
+                    }
+                    break;
+                }
+                case sf::Event::Closed: {
+                    return {};
+                }
+                default:
+                    break;
+            }
+        }
+        //update
+        //draw
+        if (firstTime) {
+            window.clear(sf::Color::Black);
+            window.display();
+            firstTime = false;
+        } else if (leftClickPressed) {
+            if (rightClickPressed)
+            {
+                std::cout << "rules" << std::endl;
+                board.applyRulesOnce();
+            }
+
+            for (auto i = 0; i < settings.BOARD_HEIGHT; ++i)
+                for (auto j = 0; j < settings.BOARD_WIDTH; ++j) {
+                    sf::RectangleShape rectangle(static_cast<sf::Vector2f>(sf::Vector2<double>(CELL_WIDTH, CELL_HEIGHT)));
+                    rectangle.setPosition(sf::Vector2f(CELL_WIDTH * static_cast<float>(j), CELL_HEIGHT * static_cast<float>(i)));
+                    if (!board.getCellValue(i, j)) // if is dead set color black (0, 0, 0)
+                        rectangle.setFillColor(sf::Color(0, 0, 0)); //else it's white by default
+                    window.draw(rectangle);
+                }
+            window.display();
+        }
     }
 }
 StateFactory doMainMenu(sf::RenderWindow& window, Settings& settings)
 {
+    std::cout << "Menu state" << std::endl;
     auto menu = Menu(settings); // we can use your `Menu` class as a local variable here.
     bool flag = true;
     while (true)
@@ -91,14 +149,10 @@ StateFactory doMainMenu(sf::RenderWindow& window, Settings& settings)
     }
 }
 
-
-
-
-
 class Game
 {
 	Settings settings;
-	Board board = Board(&settings);
+	Board board = Board(settings);
     //std::unique_ptr<Board> board;
 	Menu menu = Menu(settings);
 
@@ -202,7 +256,7 @@ public:
 							/*board.printBoardArray();
 							std::cout << std::endl;*/
 
-							board = Board(&settings);
+							board = Board(settings);
 
 							/*board.printBoardArray();
 							std::cout << std::endl;*/

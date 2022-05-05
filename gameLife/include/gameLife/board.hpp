@@ -37,15 +37,24 @@ private:
 		return value; // else change if alive or stay if dead
 	}
 public:
-	Board(Settings* settings) : settings(settings), arr(std::vector<std::vector<bool>>(settings->BOARD_HEIGHT, std::vector<bool>(settings->BOARD_WIDTH, false)))
+	Board(Settings& settings) : settings(&settings), arr(std::vector<std::vector<bool>>(settings.BOARD_HEIGHT, std::vector<bool>(settings.BOARD_WIDTH, false)))
 	{}
+    Board(Board&&) = default;
 
-	void clearBoard() { arr = {}; }
+    Board(const Board&) = default;
+    Board& operator=(const Board&) = default;
+    void clearBoard() { arr = {}; }
 
 	bool getCellValue(const int& i, const int& j) const
 	{
 		return arr.at(i).at(j);
 	}
+
+    void setAlive(const int& i, const int& j)
+    {
+        if (isSafe(i,j))
+            arr[i][j] = true;
+    }
 
 	/*
 	 *	1. Any live cell with two or three live neighbours survives.
@@ -54,7 +63,7 @@ public:
 	 */
 	void applyRulesOnce()
 	{
-		Board nextState(settings);
+		Board nextState(*settings);
 
 		for (auto i = 0; i < settings->BOARD_HEIGHT; ++i)
 		{
